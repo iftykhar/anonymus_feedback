@@ -18,7 +18,7 @@ interface Feedback {
   id: string;
   content: string;
   rating: number | null;
-  answers: Record<string, string>;
+  answers?: Record<string, string>;
   subject: string | null;
   name: string | null;
   timestamp: string;
@@ -26,8 +26,8 @@ interface Feedback {
 
 export default function AdminDashboard() {
   const [feedback, setFeedback] = useState<Feedback[]>([]);
-  // ... (rest of states and fetch logic remain similar)
   const [loading, setLoading] = useState(true);
+  const [isMounted, setIsMounted] = useState(false);
   const router = useRouter();
 
   const fetchFeedback = async () => {
@@ -46,6 +46,7 @@ export default function AdminDashboard() {
   };
 
   useEffect(() => {
+    setIsMounted(true);
     const isAuth = localStorage.getItem("adminAuth") === "true";
     if (!isAuth) {
       router.push("/admin/login");
@@ -58,6 +59,8 @@ export default function AdminDashboard() {
     localStorage.removeItem("adminAuth");
     router.push("/admin/login");
   };
+
+  if (!isMounted) return null;
 
   if (loading && feedback.length === 0) {
     return (
@@ -139,7 +142,7 @@ export default function AdminDashboard() {
                   )}
 
                   <div className="space-y-4">
-                    {Object.entries(item.answers).map(([key, value]) => {
+                    {Object.entries(item?.answers || {}).map(([key, value]) => {
                       const qTitle =
                         questions.find((q) => q.id === key)?.title || key;
                       return (
