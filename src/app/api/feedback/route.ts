@@ -1,8 +1,5 @@
 import { NextResponse } from "next/server";
-import fs from "fs/promises";
-import path from "path";
-
-const STORAGE_PATH = path.join(process.cwd(), "storage", "feedback.json");
+import { kv } from "@vercel/kv";
 
 export async function POST(req: Request) {
   try {
@@ -23,15 +20,6 @@ export async function POST(req: Request) {
       );
     }
 
-    // Read existing data
-    let feedbackList = [];
-    try {
-      const data = await fs.readFile(STORAGE_PATH, "utf-8");
-      feedbackList = JSON.parse(data);
-    } catch {
-      feedbackList = [];
-    }
-
     const newFeedback = {
       id: crypto.randomUUID(),
       content: content.trim(),
@@ -42,10 +30,8 @@ export async function POST(req: Request) {
       timestamp: new Date().toISOString(),
     };
 
-    feedbackList.push(newFeedback);
-
-    // Save back to file
-    await fs.writeFile(STORAGE_PATH, JSON.stringify(feedbackList, null, 2));
+    // Save to Vercel KV
+    await kv.lpush("feedback_list", newFeedback);
 
     return NextResponse.json({ success: true, feedback: newFeedback });
   } catch (error) {

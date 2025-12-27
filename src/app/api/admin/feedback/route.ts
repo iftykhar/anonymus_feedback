@@ -1,20 +1,19 @@
 import { NextResponse } from "next/server";
-import fs from "fs/promises";
-import path from "path";
-
-const STORAGE_PATH = path.join(process.cwd(), "storage", "feedback.json");
+import { kv } from "@vercel/kv";
 
 export async function GET() {
   try {
-    const data = await fs.readFile(STORAGE_PATH, "utf-8");
-    const feedbackList = JSON.parse(data);
-    
-    // Sort by timestamp descending
-    feedbackList.sort((a: { timestamp: string }, b: { timestamp: string }) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
+    // Get all feedback from Vercel KV list
+    // lrange with 0, -1 gets all elements. 
+    // Since we use LPUSH, they are already in reverse chronological order.
+    const feedbackList = await kv.lrange("feedback_list", 0, -1);
 
-    return NextResponse.json(feedbackList);
+    return NextResponse.json(feedbackList || []);
   } catch (error) {
-    console.error("Error reading feedback:", error);
-    return NextResponse.json({ error: "Failed to fetch feedback" }, { status: 500 });
+    console.error("Error reading feedback from KV:", error);
+    return NextResponse.json(
+      { error: "Internal Server Error" },
+      { status: 500 }
+    );
   }
 }
