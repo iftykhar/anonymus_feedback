@@ -17,6 +17,7 @@ import {
   ChevronLeft,
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import Link from "next/link";
 
 const Question = () => {
   const {
@@ -53,12 +54,24 @@ const Question = () => {
             Your anonymous feedback has been safely recorded.
           </p>
         </div>
-        <Button
-          onClick={reset}
-          className="bg-blue-600 hover:bg-blue-500 text-white rounded-xl px-8 py-6 h-auto text-lg transition-all"
-        >
-          Submit Another
-        </Button>
+        <div className="flex flex-col sm:flex-row gap-4 w-full px-2">
+          <Button
+            onClick={reset}
+            variant="outline"
+            className="flex-1 bg-slate-800/50 hover:bg-slate-800 text-white border-white/5 rounded-2xl px-8 py-6 h-auto text-lg transition-all"
+          >
+            Submit Another
+          </Button>
+          <Button
+            asChild
+            className="flex-1 bg-blue-600 hover:bg-blue-500 text-white rounded-2xl px-8 py-6 h-auto text-lg transition-all shadow-lg shadow-blue-900/40"
+          >
+            <Link href="/reviews">
+              View All Reviews
+              <ChevronRight className="ml-2 w-5 h-5" />
+            </Link>
+          </Button>
+        </div>
       </Card>
     );
   }
