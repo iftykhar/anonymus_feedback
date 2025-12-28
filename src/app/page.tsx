@@ -13,7 +13,7 @@ export default function Home() {
           <Question />
         </section>
 
-        <Reviews />
+        {/* <Reviews /> */}
       </main>
     </div>
   );
