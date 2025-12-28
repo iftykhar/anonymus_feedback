@@ -111,7 +111,7 @@ export default function AdminDashboard() {
             feedback.map((item) => (
               <Card
                 key={item.id}
-                className="group flex flex-col p-8 bg-white dark:bg-slate-900 border-transparent hover:border-blue-500/20 dark:hover:border-blue-500/30 rounded-[2rem] shadow-sm hover:shadow-2xl hover:shadow-blue-500/5 transition-all duration-500 animate-in fade-in zoom-in-95"
+                className="group relative p-8 bg-white dark:bg-slate-900 border-transparent hover:border-blue-500/20 dark:hover:border-blue-500/30 rounded-[2rem] shadow-sm hover:shadow-2xl hover:shadow-blue-500/5 transition-all duration-500 animate-in fade-in zoom-in-95 flex flex-col h-full"
               >
                 <div className="flex items-center justify-between mb-8">
                   <div className="flex items-center gap-1.5">
@@ -131,7 +131,7 @@ export default function AdminDashboard() {
                   </div>
                 </div>
 
-                <div className="flex-1 space-y-6 mb-8">
+                <div className="flex-grow space-y-6 mb-8">
                   {item.subject && (
                     <div className="px-4 py-2 bg-blue-500/10 border border-blue-500/20 rounded-xl">
                       <p className="text-sm font-bold text-blue-400 uppercase tracking-widest">
@@ -159,11 +159,13 @@ export default function AdminDashboard() {
                     })}
                   </div>
 
-                  <div className="flex items-start gap-4">
+                  <div className="flex items-start gap-4 min-w-0">
                     <MessageSquare className="w-6 h-6 text-blue-500 mt-1 shrink-0 opacity-20 group-hover:opacity-100 transition-opacity" />
-                    <p className="text-slate-700 dark:text-slate-200 text-lg leading-relaxed italic">
-                      &quot;{item.content}&quot;
-                    </p>
+                    <div className="min-w-0 flex-1">
+                      <p className="text-slate-700 dark:text-slate-200 text-lg leading-relaxed italic break-words whitespace-pre-wrap">
+                        &quot;{item.content}&quot;
+                      </p>
+                    </div>
                   </div>
 
                   {item.name && (

@@ -62,7 +62,7 @@ const Reviews = () => {
         {reviews.map((review, index) => (
           <Card
             key={review.id}
-            className="group relative p-8 bg-slate-900/40 border-white/5 hover:border-blue-500/30 rounded-[2rem] transition-all duration-500 hover:translate-y-[-4px] animate-in fade-in slide-in-from-bottom-4"
+            className="group relative p-8 bg-slate-900/40 border-white/5 hover:border-blue-500/30 rounded-[2rem] transition-all duration-500 hover:translate-y-[-4px] animate-in fade-in slide-in-from-bottom-4 flex flex-col h-full"
             style={{ animationDelay: `${index * 100}ms` }}
           >
             <div className="flex items-start justify-between mb-6">
@@ -81,13 +81,13 @@ const Reviews = () => {
               <MessageSquare className="w-5 h-5 text-blue-500/20 group-hover:text-blue-500 transition-colors" />
             </div>
 
-            <div className="space-y-4">
+            <div className="space-y-4 flex-grow">
               {review.subject && (
                 <p className="text-xs font-bold text-blue-400 uppercase tracking-widest bg-blue-500/5 px-3 py-1 rounded-full w-fit">
                   {review.subject}
                 </p>
               )}
-              <p className="text-slate-200 text-lg leading-relaxed italic">
+              <p className="text-slate-200 text-lg leading-relaxed italic break-words whitespace-pre-wrap min-w-0">
                 &quot;{review.content}&quot;
               </p>
             </div>
