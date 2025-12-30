@@ -1,8 +1,8 @@
 export const questions = [
   {
     id: "q1",
-    title: "Overall Satisfaction",
-    subtitle: "How would you rate your experience with our services so far?",
+    title: "Overall Satisfaction Level",
+    subtitle: "How would you rate your experience so far?",
     options: ["Very Satisfied", "Satisfied", "Neutral", "Unsatisfied", "Very Unsatisfied"]
   },
   {
